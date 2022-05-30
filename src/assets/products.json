@@ -206,7 +206,8 @@
       "id": "PR-30",
       "name": "Mudslide",
       "price": 3.00,
-      "department": "Food"
+      "department": "Food",
+      "currency": "$"
     }
   ]
   

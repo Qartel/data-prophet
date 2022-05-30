@@ -18,10 +18,7 @@ export const Search = (props) => {
     currency: true,
   });
 
-  const [prod, setProd] = useState({Products})
-
   const onPriceInputChange = (name, value) => {
-    // TODO: implement price change handler
     if(name === "priceFrom"){
       setPrice({priceFrom: value, priceTo: price.priceTo})
     }
@@ -32,8 +29,6 @@ export const Search = (props) => {
   }
 
   const onCheckboxClick = (name, value) => {
-    // TODO: implement checkbox click handler
-
     let newColumns = {...columns};
 
     for (let [k, val] of Object.entries(newColumns)) {
@@ -51,24 +46,33 @@ export const Search = (props) => {
     })
   }
 
+  const [prod, setProd] = useState({Products})
+
   const filterProducts = (name, value) => {
     let priceFrom = price.priceFrom
     let priceTo = price.priceTo
     if(name === "priceFrom"){
       priceFrom = value
+      // console.log(priceFrom)
     }
     if(name === "priceTo"){
       priceTo = value;
+      // console.log(priceTo)
     }
-    // TODO: implement handler for filtering products by price range
 
-    const filteredProducts = prod.Products.filter(price => price < priceTo && price > priceFrom)
-    console.log("filteredProducts",filteredProducts)
-    setProd({filteredProducts})
+    const products = prod.Products;
+    // console.log(prod.Products)
+
+    let displayedProducts = [];
+    // console.log({displayedProducts});
+
+    const filteredProducts = products.forEach(product => {
+        if (products && product.price > priceFrom && product.price < priceTo) {
+          displayedProducts.push(product)
+        }
+    })
+    setProd(oldProd => ({...oldProd, ...displayedProducts}))
   }
-
-  let displayedProducts = [];
-  displayedProducts.push(prod)
 
   return (
     <div className="Products">
@@ -82,10 +86,10 @@ export const Search = (props) => {
       <ProductList
         priceFrom={price.priceFrom}
         priceTo={price.priceTo}
-        products={displayedProducts}
+        products={prod}
+        initialProducts={Products}
         productColumns={columns} />
     </div>
   );
 }
-
 export default Search;
