@@ -2,9 +2,6 @@ import React from 'react'
 import Products from './../assets/products.json'
 
 export const ProductList = (props) => {
-  // TODO: display appropriate header
-  // TODO: display only chosen columns
-  // TODO: display products as new table rows
   
   let newProductList = props.productColumns
   let newProducts = props.products;
@@ -12,16 +9,19 @@ export const ProductList = (props) => {
   return (
     <div id="product-list">
       <header>
-        <strong>Product List ({Object.keys(newProducts).length} items)</strong>
+      { props.priceFrom === '' && props.priceTo === '' ?
+      <strong>Product List ({Object.keys(Products).length} items)</strong> :
+      <strong>Product List ({Object.keys(newProducts).length} items)</strong>
+      }
       </header>
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Department</th>
-            <th>Price</th>
-            <th>Currency</th>
+            <td>{newProductList.id === true ? 'ID' : ''}</td>
+            <td>{newProductList.name === true ? 'Name' : ''}</td>
+            <td>{newProductList.department === true ? 'Department' : ''}</td>
+            <td>{newProductList.price === true ? 'Price' : ''}</td>
+            <td>{newProductList.currency === true ? 'Currency' : ''}</td>
           </tr>
         </thead>
         <tbody>

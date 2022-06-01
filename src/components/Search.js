@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 
 import '../styles/Search.css';
 import { ToggleColumns } from './ToggleColumns';
@@ -25,7 +25,6 @@ export const Search = (props) => {
     if(name === "priceTo"){
       setPrice({priceTo: value, priceFrom: price.priceFrom})
     }
-    filterProducts(name, value)
   }
 
   const onCheckboxClick = (name, value) => {
@@ -34,7 +33,7 @@ export const Search = (props) => {
     for (let [k, val] of Object.entries(newColumns)) {
       if(k === name){
       newColumns[name] = value;
-    }
+      }
     }
 
     setColumns({ 
@@ -46,33 +45,9 @@ export const Search = (props) => {
     })
   }
 
-  const [prod, setProd] = useState({Products})
-
-  const filterProducts = (name, value) => {
-    let priceFrom = price.priceFrom
-    let priceTo = price.priceTo
-    if(name === "priceFrom"){
-      priceFrom = value
-      // console.log(priceFrom)
-    }
-    if(name === "priceTo"){
-      priceTo = value;
-      // console.log(priceTo)
-    }
-
-    const products = prod.Products;
-    // console.log(prod.Products)
-
-    let displayedProducts = [];
-    // console.log({displayedProducts});
-
-    const filteredProducts = products.forEach(product => {
-        if (products && product.price > priceFrom && product.price < priceTo) {
-          displayedProducts.push(product)
-        }
-    })
-    setProd(oldProd => ({...oldProd, ...displayedProducts}))
-  }
+  const filteredProducts = useMemo(() => Products.filter(
+    p => (!price.priceFrom || p.price > price.priceFrom) 
+    && (!price.priceTo || p.price < price.priceTo)), [Products, price]);
 
   return (
     <div className="Products">
@@ -86,8 +61,7 @@ export const Search = (props) => {
       <ProductList
         priceFrom={price.priceFrom}
         priceTo={price.priceTo}
-        products={prod}
-        initialProducts={Products}
+        products={filteredProducts}
         productColumns={columns} />
     </div>
   );
