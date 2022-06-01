@@ -46,8 +46,8 @@ export const Search = (props) => {
   }
 
   const filteredProducts = useMemo(() => Products.filter(
-    p => (!price.priceFrom || p.price > price.priceFrom) 
-    && (!price.priceTo || p.price < price.priceTo)), [Products, price]);
+    p => (!price.priceFrom || p.price >= price.priceFrom) 
+    && (!price.priceTo || p.price <= price.priceTo)), [Products, price]);
 
   return (
     <div className="Products">
